@@ -1,0 +1,9 @@
+flask
+requests
+pycryptodome
+tencentcloud-sdk-python-common
+tencentcloud-sdk-python-asr
+requests-toolbelt
+pydub
+azure-cognitiveservices-speech
+openpyxl
