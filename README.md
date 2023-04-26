@@ -182,6 +182,10 @@ https://www.bilibili.com/video/BV1fV4y1d7Wv
 
 #### 微软key
 
+> 需要信用卡，新注册信用卡可以免费使用1年微软语音服务。
+
+> **如果没有这个，建议使用sougou或者youdao语音的引擎。**
+
 访问微软语音服务（https://portal.azure.com/#view/Microsoft_Azure_ProjectOxford/CognitiveServicesHub/~/SpeechServices），创建订阅。
 
 在**密钥和终结点**中获取密钥1和地区
