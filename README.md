@@ -205,7 +205,7 @@ ENCRYPT_KEY = "" #飞书应用事件订阅的Encrypt Key
 VERIFICATION_TOKEN = "" #飞书应用事件订阅的Verification Token
 LARK_HOST = "https://open.feishu.cn"
 TencentSecretId = "" #腾讯SecretId，用来语音转文字
-TencentSecretKey = "" #腾讯SecretId，用来语音转文字
+TencentSecretKey = "" #腾讯SecretKey，用来语音转文字
 AiKey = "sk-" #openai的key
 
 azure_speech_key = ""  #微软的key
