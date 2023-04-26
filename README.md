@@ -174,9 +174,9 @@ https://www.bilibili.com/video/BV1fV4y1d7Wv
 
 > 腾讯语音识别文字功能每月有免费额度（每月5000次）
 
-访问腾讯ASR网站（https://console.cloud.tencent.com/asr），开通ASR功能（主要是一句话识别）。
+访问[腾讯ASR网站](https://console.cloud.tencent.com/asr)，开通ASR功能（主要是一句话识别）。
 
-接着访问API密钥管理（https://console.cloud.tencent.com/cam/capi），创建一个密钥。
+接着访问[API密钥管理](https://console.cloud.tencent.com/cam/capi)，创建一个密钥。
 
 
 
@@ -186,7 +186,7 @@ https://www.bilibili.com/video/BV1fV4y1d7Wv
 
 > **如果没有这个，建议使用sougou或者youdao语音的引擎。**
 
-访问微软语音服务（https://portal.azure.com/#view/Microsoft_Azure_ProjectOxford/CognitiveServicesHub/~/SpeechServices），创建订阅。
+访问[微软语音服务](https://portal.azure.com/#view/Microsoft_Azure_ProjectOxford/CognitiveServicesHub/~/SpeechServices)，创建订阅。
 
 在**密钥和终结点**中获取密钥1和地区
 
