@@ -128,35 +128,13 @@ https://www.bilibili.com/video/BV1fV4y1d7Wv
 
 ### 配置
 
-#### 配置文件
+#### 创建openai的key
 
-修改`core\config.py`文件，填上对应的密钥。
+访问：https://platform.openai.com/account/api-keys
 
-```
-APP_ID = "" #飞书应用的App ID
-APP_SECRET = "" # 飞书应用的App Secret
-ENCRYPT_KEY = "" #飞书应用事件订阅的Encrypt Key
-VERIFICATION_TOKEN = "" #飞书应用事件订阅的Verification Token
-LARK_HOST = "https://open.feishu.cn"
-TencentSecretId = "" #腾讯SecretId，用来语音转文字
-TencentSecretKey = "" #腾讯SecretId，用来语音转文字
-AiKey = "sk-" #openai的key
-
-azure_speech_key = ""  #微软的key
-azure_service_region = "eastus" #微软资源的地区
-
-text_and_audio = 0 #默认只回复英文语音，设置为1同时回复英语语音和英语文本。当配置为0的时候，可以采用官方的语音翻译功能对回复录音进行翻译，用于练听力。
-random_word_num = 10 #随机抽取单词的个数
-syntactic_correction = 0 #英语语法修正，默认不开启。修改为1代表开启语法批改。
-
-audio_mode = "youdao"  #有三种语音模式，分别是：`youdao`、`sougou`、`azure`
-sougou_speaker = 6 #搜狗语音有6种语音，可以选择自己喜欢的，参考https://fanyi.sogou.com/reventondc/synthesis?text=hello%20i%20am%20xiaoming&speaker=6
-azure_speaker = "en-US-AriaNeural" #点击语音库，选择自己喜欢的声音。https://speech.microsoft.com/portal
+点击`create new secret key`，就可以获取到key。
 
 
-```
-
-> 可以不配置腾讯的key，**用飞书官方自带的语音转文字功能**。
 
 #### 飞书配置
 
@@ -190,13 +168,61 @@ azure_speaker = "en-US-AriaNeural" #点击语音库，选择自己喜欢的声�
 
 ![image-20230415094148950](img/image-20230415094148950.png)
 
-
-
-#### 腾讯语音识别文字
+#### 腾讯key
 
 > https://cloud.tencent.com/document/product/1093/35686#.E5.85.8D.E8.B4.B9.E9.A2.9D.E5.BA.A6
 
-腾讯语音识别文字功能每月有免费额度（每月5000次）
+> 腾讯语音识别文字功能每月有免费额度（每月5000次）
+
+访问腾讯ASR网站（https://console.cloud.tencent.com/asr），开通ASR功能（主要是一句话识别）。
+
+接着访问API密钥管理（https://console.cloud.tencent.com/cam/capi），创建一个密钥。
+
+
+
+#### 微软key
+
+访问微软语音服务（https://portal.azure.com/#view/Microsoft_Azure_ProjectOxford/CognitiveServicesHub/~/SpeechServices），创建订阅。
+
+在**密钥和终结点**中获取密钥1和地区
+
+![image-20230426143341888](img/image-20230426143341888.png)
+
+
+
+#### 配置文件
+
+修改`core\config.py`文件，填上对应的密钥。
+
+```
+APP_ID = "" #飞书应用的App ID
+APP_SECRET = "" # 飞书应用的App Secret
+ENCRYPT_KEY = "" #飞书应用事件订阅的Encrypt Key
+VERIFICATION_TOKEN = "" #飞书应用事件订阅的Verification Token
+LARK_HOST = "https://open.feishu.cn"
+TencentSecretId = "" #腾讯SecretId，用来语音转文字
+TencentSecretKey = "" #腾讯SecretId，用来语音转文字
+AiKey = "sk-" #openai的key
+
+azure_speech_key = ""  #微软的key
+azure_service_region = "eastus" #微软资源的地区
+
+text_and_audio = 0 #默认只回复英文语音，设置为1同时回复英语语音和英语文本。当配置为0的时候，可以采用官方的语音翻译功能对回复录音进行翻译，用于练听力。
+random_word_num = 10 #随机抽取单词的个数
+syntactic_correction = 0 #英语语法修正，默认不开启。修改为1代表开启语法批改。
+
+audio_mode = "youdao"  #有三种语音模式，分别是：`youdao`、`sougou`、`azure`
+sougou_speaker = 6 #搜狗语音有6种语音，可以选择自己喜欢的，参考https://fanyi.sogou.com/reventondc/synthesis?text=hello%20i%20am%20xiaoming&speaker=6
+azure_speaker = "en-US-AriaNeural" #点击语音库，选择自己喜欢的声音。https://speech.microsoft.com/portal
+
+
+```
+
+> 可以不配置腾讯的key，**用飞书官方自带的语音转文字功能**。
+
+
+
+
 
 
 
