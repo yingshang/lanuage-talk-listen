@@ -7,3 +7,4 @@ requests-toolbelt
 pydub
 azure-cognitiveservices-speech
 openpyxl
+sqlalchemy

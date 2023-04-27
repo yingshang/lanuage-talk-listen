@@ -52,7 +52,13 @@ class MessageApiClient(object):
             root_id = resp.json()['data']['items'][0]['root_id']
         except:
             root_id = None
-        return root_id
+
+        try:
+            parent_id = resp.json()['data']['items'][0]['parent_id']
+        except:
+            parent_id = None
+
+        return root_id,parent_id
 
     def upload_audio_file(self, filepath, duration_ms):
         self._authorize_tenant_access_token()
@@ -97,8 +103,19 @@ class MessageApiClient(object):
             "content": c,
             "msg_type": msg_type,
         }
-        resp = requests.post(url=url, headers=headers, json=req_body)
-        MessageApiClient._check_error_response(resp)
+        resp = requests.post(url=url, headers=headers, json=req_body).json()['data']
+        msgcontent = json.loads(resp['body']['content'])
+        message_id = resp['message_id']
+        msg_type = resp['msg_type']
+        parent_id = resp['parent_id']
+        root_id = resp['root_id']
+        if msg_type == 'text':
+            content = msgcontent['text']
+        elif msg_type =='audio':
+            content = msgcontent['file_key']
+        return message_id,parent_id,root_id,content
+
+
 
 
     def _authorize_tenant_access_token(self):

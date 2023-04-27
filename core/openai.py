@@ -1,13 +1,14 @@
 import requests
 import json
 from datetime import datetime,timedelta
+from core.config import AiKey
 
 proxies = {
     'http': '127.0.0.1:1080',
     'https': '127.0.0.1:1081'
 }
 
-def send_ai(messages,AiKey):
+def send_ai(messages):
     url = 'https://api.openai.com/v1/chat/completions'
     headers = {
         'Content-Type': 'application/json',
@@ -17,12 +18,11 @@ def send_ai(messages,AiKey):
         "model": "gpt-3.5-turbo",
         "messages": messages
     }
-
     r = requests.post(url=url, headers=headers, data=json.dumps(body))
     resp_text = r.json()['choices'][0]['message']['content']
     return resp_text
 
-def check_price(AiKey):
+def check_price():
     now = datetime.now()
     before_day_ago = now - timedelta(days=99)
     now_date_str = now.strftime("%Y-%m-%d")

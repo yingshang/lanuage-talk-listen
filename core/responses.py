@@ -1,78 +1,58 @@
-from core.config import *
 from core.openai import *
 from core.audios import *
+from core.models import insert_msg,get_conversation,get_first_conversation_dia_type
+
+def dia_choice(parent_id, root_id, message_id, content,characteristic, filepath='', dialogue=0,ingore_type=0):
+    dia_type = get_first_conversation_dia_type(message_id,root_id)
+    if ingore_type == 1:
+        deal_text_response(parent_id, root_id, message_id, content,characteristic)
+    elif dia_type == 'audio':
+        deal_audio_response(parent_id, root_id, message_id, content,characteristic,filepath,dialogue)
+    elif dia_type == 'text':
+        deal_text_response(parent_id, root_id, message_id, content,characteristic)
 
 
-# 回复功能集合
-def deal_response(parent_id, root_id, message_id, content, filepath, ingore_grammar=0, dialogue=0):
-    grammar_modify(content, parent_id, root_id, message_id, ingore_grammar)
+# 回复音频功能集合
+def deal_audio_response(parent_id, root_id, message_id, content,characteristic, filepath, dialogue):
 
-    resp_text = deal_dialogues(dialogues, parent_id, root_id, message_id, content, AiKey)
+    resp_text = deal_dialogues(parent_id, root_id,message_id,content)
 
     duration_ms = generate_audio(resp_text, filepath,dialogue)
     filekey = message_api_client.upload_audio_file(filepath, duration_ms)
-    message_api_client.reply_send(message_id, filekey, 'audio')
+    message_id,parent_id,root_id,file_key = message_api_client.reply_send(message_id, filekey, 'audio')
+    #插入返回数据
+    insert_msg(message_id, root_id, parent_id, resp_text, 'text', characteristic, 'ai','',file_key,filepath)
+
     if text_and_audio != 0:
         message_api_client.reply_send(message_id, resp_text, 'text')
 
-def deal_dialogues(dialogues,parent_id,root_id,message_id,text_content,AiKey):
+
+# 回复文本功能集合
+def deal_text_response(parent_id, root_id, message_id, content,characteristic):
+
+    resp_text = deal_dialogues(parent_id, root_id, message_id, content)
+
+    message_id, parent_id, root_id, content = message_api_client.reply_send(message_id, resp_text, 'text')
+    # 插入返回数据
+    insert_msg(message_id, root_id, parent_id, resp_text, 'text', characteristic, 'ai','')
+
+
+def deal_dialogues(parent_id,root_id,message_id,text_content):
 
     if len(parent_id)==0 and len(root_id)==0:
-        dialogues[message_id] = []
-        dialogues[message_id].append(
+        msgs = [
             {
                 "role": "user", "content": text_content
             }
-        )
-        resp_text =send_ai(dialogues[message_id],AiKey)
+        ]
+        resp_text =send_ai(msgs)
 
-        dialogues[message_id].append(
-            {
-                "role": "assistant",
-                "content": resp_text,
-            }
-        )
     else:
-        dialogues[root_id].append(
-            {
-                "role": "user", "content": text_content
-            }
-        )
-        resp_text =send_ai(dialogues[root_id],AiKey)
-        dialogues[root_id].append(
-            {
-                "role": "assistant",
-                "content": resp_text,
-            }
-        )
+        print(message_id)
+        msgs = get_conversation(message_id)
+        resp_text =send_ai(msgs)
+
 
     return resp_text
 
 
-def just_dialogues(dialogues,parent_id,root_id,message_id,text_content,AiKey):
-
-    if len(parent_id)==0 and len(root_id)==0:
-        dialogues[message_id] = []
-        dialogues[message_id].append(
-            {
-                "role": "user", "content": text_content
-            }
-        )
-        resp_text =send_ai(dialogues[message_id],AiKey)
-
-    else:
-        dialogues[root_id].append(
-            {
-                "role": "user", "content": text_content
-            }
-        )
-        resp_text =send_ai(dialogues[root_id],AiKey)
-
-    return resp_text
-
-
-def grammar_modify(speech_text, parent_id, root_id, message_id, ingore_grammar):
-    if syntactic_correction == 1 and ingore_grammar == 0:
-        content = "Help me check if there are any English grammar errors in these contents: {}".format(speech_text)
-        resp_text = just_dialogues(dialogues, parent_id, root_id, message_id, content, AiKey)
-        message_api_client.reply_send(message_id, resp_text, 'text')

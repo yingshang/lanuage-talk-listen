@@ -35,25 +35,7 @@ help_text = {
                 "style": []
             }
         ],
-        [
-            {
-                "tag": "text",
-                "text": "清除会话 ",
-                "style": ["bold", "underline"]
-            },
-            {
-                "tag": "text",
-                "text": "把之前所有的会话都清除，清除上下文",
-                "style": []
-            }
-        ],
-        [
-            {
-                "tag": "text",
-                "text": "",
-                "style": []
-            }
-        ],
+
         [
             {
                 "tag": "text",
@@ -206,25 +188,7 @@ help_text = {
                 "style": []
             }
         ],
-        [
-            {
-                "tag": "text",
-                "text": "原文 ",
-                "style": ["bold", "underline"]
-            },
-            {
-                "tag": "text",
-                "text": "显示当前会话AI最后一次回复内容。如Q1A1Q2A2，只返回A2内容，可用于听力场景返回文章，不用翻译语音",
-                "style": []
-            }
-        ],
-        [
-            {
-                "tag": "text",
-                "text": "",
-                "style": []
-            }
-        ],
+
         [
             {
                 "tag": "text",
@@ -284,7 +248,7 @@ help_text = {
             },
             {
                 "tag": "text",
-                "text": "   同原文功能一样",
+                "text": "   对该消息回复文本内容",
                 "style": []
             }
         ],
@@ -321,7 +285,28 @@ help_text = {
                 "style": []
             }
         ],
-
+[
+            {
+                "tag": "emotion",
+                "emoji_type": "MUSCLE",
+            },
+            {
+                "tag": "text",
+                "text": "   对英语句子生成音频返回。",
+                "style": []
+            }
+        ],
+[
+            {
+                "tag": "emotion",
+                "emoji_type": "THANKS",
+            },
+            {
+                "tag": "text",
+                "text": "   对英语句子进行语法检测。",
+                "style": []
+            }
+        ],
 
     ]
 }
