@@ -3,20 +3,11 @@ from flask import Flask,jsonify
 from core.models import *
 from core.core import text_choice,emoji_choice
 from core.config import *
-import os
 
 
 app = Flask(__name__)
 
-# 记录对话上下文
-cwd = os.getcwd()
-chatfile_path = os.path.join(cwd,'chatfile')
-file_path = os.path.join(cwd,'file')
-if not os.path.exists(chatfile_path):
-    os.makedirs(chatfile_path)
-    #print("文件夹创建成功！")
-if not os.path.exists(file_path):
-    os.makedirs(file_path)
+
 
 
 
