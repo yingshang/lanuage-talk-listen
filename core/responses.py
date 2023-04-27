@@ -48,7 +48,6 @@ def deal_dialogues(parent_id,root_id,message_id,text_content):
         resp_text =send_ai(msgs)
 
     else:
-        print(message_id)
         msgs = get_conversation(message_id)
         resp_text =send_ai(msgs)
 
