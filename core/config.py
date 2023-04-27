@@ -26,3 +26,13 @@ event_manager = EventManager()
 
 
 
+# 记录对话上下文
+import os
+cwd = os.getcwd()
+chatfile_path = os.path.join(cwd,'chatfile')
+file_path = os.path.join(cwd,'file')
+if not os.path.exists(chatfile_path):
+    os.makedirs(chatfile_path)
+    #print("文件夹创建成功！")
+if not os.path.exists(file_path):
+    os.makedirs(file_path)
