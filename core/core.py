@@ -1,6 +1,6 @@
 from core.tencent import speech_recognition
 from core.helper import *
-import random
+import os
 from core.scenes import scene,school_scenes,academic_scenes
 from core.responses import *
 from datetime import datetime
