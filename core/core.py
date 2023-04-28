@@ -143,15 +143,14 @@ def emoji_choice(root_id, parent_id,message_id,emoji_type,characteristic):
     elif emoji_type == 'HEART':
         resp_text = get_content_by_message_id(message_id)
         content = scene['单词分析'].format(resp_text)
-        dia_choice(parent_id, root_id, message_id, content,characteristic)
+        dia_choice(parent_id, root_id, message_id, content,characteristic,ingore_type=1)
 
 
     elif emoji_type == 'SMILE':
         content = scene['阅读题目']
-
         insert_msg(msg_id, root_id, message_id, content, 'text', characteristic, 'receive', '')
-
         dia_choice(parent_id, root_id, message_id, content,characteristic,ingore_type=1)
+
 
     elif emoji_type == 'Delighted':
         content = scene['阅读答案']
