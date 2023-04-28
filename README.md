@@ -3,7 +3,7 @@
 ## 背景
 由于openAI自动生成文本，想用它来提升英语口语能力。于是自己写了基于web的对话，但是这样要坐着输入输出，时间长就腰酸背痛。
 
-想着能不能通过手机躺着练习口语，于是调研了微信、钉钉开发者文档，发现微信不支持；钉钉需要在小程序开发录音功能，比较麻烦。
+想着能不能通过手机躺着练习口语，~~于是调研了微信、钉钉开发者文档，发现微信不支持；钉钉需要在小程序开发录音功能，比较麻烦。~~**（后发现可以实现，等排期实现）**
 
 后面发现飞书支持**获取录音、录音下载**开发者功能，于是才有了这个项目。
 
@@ -273,6 +273,12 @@ docker run -itd -p 443:443 -v /opt/file:/opt/feishu-talk/file --restart=always f
 - [ ] 添加企业微信功能
 
   > https://developer.work.weixin.qq.com/document/path/90250
+
+- [ ] 添加钉钉功能
+
+  > https://open.dingtalk.com/document/orgapp/download-the-file-content-of-the-robot-receiving-message
+  >
+  > https://open.dingtalk.com/document/orgapp/the-application-robot-in-the-enterprise-sends-a-single-chat
 
 
 
