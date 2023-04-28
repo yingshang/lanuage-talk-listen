@@ -14,7 +14,7 @@ topics_list = ['随机话题','讲座','学校']
 
 def text_choice(message_id,root_id,parent_id,message_type,msgcontent):
     now = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-    filepath = os.path.join(chatfile_path, f"{now}.wav")
+    filepath = os.path.join(chatfile_path, f"{now}.opus")
 
     characteristic = message_id
 
