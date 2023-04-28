@@ -287,4 +287,4 @@ docker run -itd -p 443:443 -v /opt/file:/opt/feishu-talk/file --restart=always f
 
 ## 联系方式
 
-<img src="img/飞书20230428-164221.png" alt="飞书20230428-164221" style="zoom: 33%;" />
+<img src="img/20230428-164800.png" alt="20230428-164800" style="zoom:50%;" />
