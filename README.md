@@ -148,6 +148,10 @@ https://www.bilibili.com/video/BV1fV4y1d7Wv
 
 ![image-20230415094148950](img/image-20230415094148950.png)
 
+最后在**工作台-**>全部应用找到聊天机器人。
+
+![image-20230428230104783](img/image-20230428230104783.png)
+
 #### 腾讯key
 
 > https://cloud.tencent.com/document/product/1093/35686#.E5.85.8D.E8.B4.B9.E9.A2.9D.E5.BA.A6
