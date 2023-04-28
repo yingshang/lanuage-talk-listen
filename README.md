@@ -270,6 +270,10 @@ docker run -itd -p 443:443 -v /opt/file:/opt/feishu-talk/file --restart=always f
 
 - [ ] 添加语种(粤语、德语、法语等)
 
+- [ ] 添加企业微信功能
+
+  > https://developer.work.weixin.qq.com/document/path/90250
+
 
 
 
