@@ -7,7 +7,7 @@ RUN cd /root &&  openssl rand -writerand .rnd
 RUN cd /opt && openssl genrsa -out server.key 2048   &&  openssl req -new -key server.key -out server.csr --batch && openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
 COPY requirements.txt /tmp/requirements.txt
 RUN pip3 install -r /tmp/requirements.txt
-COPY . /opt/feishu-talk
+COPY . /opt/lanuage-talk-listen
 COPY nginx.conf /etc/nginx/
 
 WORKDIR /opt/lanuage-talk-listen
