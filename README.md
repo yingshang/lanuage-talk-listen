@@ -98,7 +98,7 @@ azure_speaker = "en-US-AriaNeural" #点击语音库，选择自己喜欢的声�
 ```bash
 apt install -y ffmpeg
 cd /opt 
-git clone https://github.com/yingshang/feishu-talk
+git clone https://github.com/yingshang/lanuage-talk-listen
 cd feishu-talk && pip3 install -r requirements.txt
 python3 app.py
 ```
@@ -106,9 +106,9 @@ python3 app.py
 ### docker部署
 ```bash
 cd /opt 
-git clone https://github.com/yingshang/feishu-talk
-docker build -t feishu-talk .
-docker run -itd -p 443:443 -v /opt/file:/opt/feishu-talk/file --restart=always feishu-talk
+git clone https://github.com/yingshang/lanuage-talk-listen
+docker build -t lanuage-talk-listen .
+docker run -itd -p 443:443 -v /opt/file:/opt/lanuage-talk-listen/file --restart=always lanuage-talk-listen
 ```
 
 
