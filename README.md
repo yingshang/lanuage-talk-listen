@@ -107,6 +107,7 @@ python3 app.py
 ```bash
 cd /opt 
 git clone https://github.com/yingshang/lanuage-talk-listen
+cd lanuage-talk-listen
 docker build -t lanuage-talk-listen .
 docker run -itd -p 443:443 -v /opt/file:/opt/lanuage-talk-listen/file --restart=always lanuage-talk-listen
 ```
