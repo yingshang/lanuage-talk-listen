@@ -1,12 +1,31 @@
 from flask import Flask,jsonify
-
+import os
 from core.models import *
 from core.core import text_choice,emoji_choice
 from core.config import *
+from feishu.event import *
+from dingding.dingding import DingDing
 
+
+# 记录对话上下文
+
+cwd = os.getcwd()
+chatfile_path = os.path.join(cwd,'chatfile')
+file_path = os.path.join(cwd,'file')
+if not os.path.exists(chatfile_path):
+    os.makedirs(chatfile_path)
+    #print("文件夹创建成功！")
+if not os.path.exists(file_path):
+    os.makedirs(file_path)
 
 app = Flask(__name__)
 
+from feishu.api import MessageApiClient
+from feishu.event import EventManager
+
+# init service
+message_api_client = MessageApiClient(APP_ID, APP_SECRET, LARK_HOST)
+event_manager = EventManager()
 
 
 
@@ -95,6 +114,20 @@ def callback_event_handler():
     # except:
     #     return jsonify()
 
+
+@app.route("/dingding/callback", methods=["GET", "POST"])
+def callback():
+
+    if request.method == "GET":
+        return jsonify()
+    elif request.method == "POST":
+        rs = request.get_json()
+        dd = DingDing()
+
+
+        print(rs)
+
+        return jsonify()
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=5000)

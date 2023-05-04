@@ -4,9 +4,9 @@ import json
 import abc
 import hashlib
 import typing as t
-from core.utils import dict_2_obj
+from feishu.utils import dict_2_obj
 from flask import request
-from core.decrypt import AESCipher
+from feishu.decrypt import AESCipher
 
 
 class Event(object):

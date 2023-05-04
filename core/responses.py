@@ -1,6 +1,10 @@
 from core.openai import *
 from core.audios import *
 from core.models import insert_msg,get_conversation,get_first_conversation_dia_type
+from feishu.api import MessageApiClient
+
+# init service
+message_api_client = MessageApiClient(APP_ID, APP_SECRET, LARK_HOST)
 
 def dia_choice(parent_id, root_id, message_id, content,characteristic, filepath='', dialogue=0,ingore_type=0):
     dia_type = get_first_conversation_dia_type(message_id,root_id)

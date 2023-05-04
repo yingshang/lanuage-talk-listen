@@ -18,7 +18,7 @@ def send_ai(messages):
         "model": "gpt-3.5-turbo",
         "messages": messages
     }
-    r = requests.post(url=url, headers=headers, data=json.dumps(body))
+    r = requests.post(url=url, headers=headers, data=json.dumps(body),proxies=proxies)
     resp_text = r.json()['choices'][0]['message']['content']
     return resp_text
 

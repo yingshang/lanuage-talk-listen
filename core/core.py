@@ -1,5 +1,5 @@
 from core.tencent import speech_recognition
-from core.helper import *
+from feishu.helper import *
 import os
 from core.scenes import scene,school_scenes,academic_scenes
 from core.responses import *
@@ -8,8 +8,14 @@ import json
 from core.config import *
 from core.models import *
 import string
-topics_list = ['随机话题','讲座','学校']
+from feishu.api import MessageApiClient
 
+# init service
+message_api_client = MessageApiClient(APP_ID, APP_SECRET, LARK_HOST)
+
+topics_list = ['随机话题','讲座','学校']
+cwd = os.getcwd()
+chatfile_path = os.path.join(cwd,'chatfile')
 
 
 def text_choice(message_id,root_id,parent_id,message_type,msgcontent):
@@ -23,7 +29,7 @@ def text_choice(message_id,root_id,parent_id,message_type,msgcontent):
         insert_msg(message_id, root_id, parent_id, text_content, message_type, characteristic, 'receive', 'text')
 
         if text_content == "帮助列表":
-            message_api_client.reply_send(message_id, help_text, 'post')
+            message_api_client.reply_send(message_id, feishu_help_text, 'post')
 
         elif text_content == "余额":
             hard_limit_usd, total_usage = check_price()

@@ -1,4 +1,4 @@
-help_text = {
+feishu_help_text = {
     "title": "帮助列表",
     "content": [
         [
