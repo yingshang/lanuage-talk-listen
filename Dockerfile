@@ -10,6 +10,6 @@ RUN pip3 install -r /tmp/requirements.txt
 COPY . /opt/feishu-talk
 COPY nginx.conf /etc/nginx/
 
-WORKDIR /opt/feishu-talk
+WORKDIR /opt/lanuage-talk-listen
 
 ENTRYPOINT nginx &&  python3 app.py
