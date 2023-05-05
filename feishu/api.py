@@ -80,7 +80,29 @@ class MessageApiClient(object):
         response = requests.request("POST", url, headers=headers, data=multi_form)
         file_key = response.json()['data']['file_key']
         return file_key
-        # print(response.headers['X-Tt-Logid'])  # for debug or oncall
+
+    def upload_stream_file(self, filepath):
+        self._authorize_tenant_access_token()
+        if "\\" in filepath:
+            filename = filepath.split("\\")[-1]
+        else:
+            filename = filepath.split("/")[-1]
+        # 请注意使用时替换文件path和Authorization
+        url = "https://open.feishu.cn/open-apis/im/v1/files"
+        form = {
+            'file_type': 'stream',
+            'file_name': filename,
+            'file': (filename, open(filepath, 'rb'), 'text/plain')
+        }
+        multi_form = MultipartEncoder(form)
+        headers = {
+            "Authorization": "Bearer " + self.tenant_access_token
+        }
+
+        headers['Content-Type'] = multi_form.content_type
+        response = requests.request("POST", url, headers=headers, data=multi_form)
+        file_key = response.json()['data']['file_key']
+        return file_key
 
     # https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/im-v1/message/create_json
     def reply_send(self, message_id, content, msg_type):
@@ -98,6 +120,9 @@ class MessageApiClient(object):
             c = json.dumps({"file_key": content})
         elif msg_type == 'post':
             c = json.dumps({"zh_cn": content})
+
+        elif msg_type == 'file':
+            c = json.dumps({"file_key": content})
 
         req_body = {
             "content": c,
