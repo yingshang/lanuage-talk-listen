@@ -76,7 +76,11 @@ def text_choice(message_id,root_id,parent_id,message_type,msgcontent):
                 sc_selected = random.choice(value)
                 content = scene[text_content].format(sc_scene,sc_selected,sc_scene)
                 dia_choice(parent_id, root_id, message_id, content, characteristic, filepath,dialogue=1)
-                return
+
+                # 将音频文件以文件方式发送出来，用于上传到空间，后台听音频。
+                filekey = message_api_client.upload_stream_file(filepath)
+                message_api_client.reply_send(message_id, filekey, 'file')
+
             elif text_content=="讲座":
                 content = scene[text_content].format(random.choice(academic_scenes))
             else:
