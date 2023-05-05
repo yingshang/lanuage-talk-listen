@@ -27,9 +27,9 @@ def deal_audio_response(parent_id, root_id, message_id, content,characteristic, 
     #插入返回数据
     insert_msg(message_id, root_id, parent_id, resp_text, 'text', characteristic, 'ai','',file_key,filepath)
 
+
     if text_and_audio != 0:
         message_api_client.reply_send(message_id, resp_text, 'text')
-
 
 # 回复文本功能集合
 def deal_text_response(parent_id, root_id, message_id, content,characteristic):
