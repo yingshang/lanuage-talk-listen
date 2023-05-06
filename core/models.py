@@ -37,13 +37,29 @@ class Msg(Base):
 # 创建表
 Base.metadata.create_all(engine)
 
-def get_filepath_by_message_id(parent_id):
+def get_filepath_by_parent_id(parent_id):
     # 创建session
     Session = sessionmaker(bind=engine)
     session = Session()
 
     try:
         msg = session.query(Msg).filter(Msg.message_id == parent_id).one_or_none()
+
+        if msg:
+            return msg.filepath
+        else:
+            return None
+    finally:
+        session.close()
+
+
+def get_filepath_by_message_id(message_id):
+    # 创建session
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    try:
+        msg = session.query(Msg).filter(Msg.message_id == message_id).one_or_none()
 
         if msg:
             return msg.filepath
