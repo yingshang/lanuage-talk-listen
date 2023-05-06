@@ -1,7 +1,7 @@
 from flask import Flask,jsonify
 import os
 from core.models import *
-from core.core import text_choice,emoji_choice
+from core.core import feishu_type_choice,feishu_emoji_choice
 from core.config import *
 from feishu.event import *
 from dingding.dingding import DingDing
@@ -63,7 +63,7 @@ def reaction_receive_event_handler(req_data: MessageReactionCreateEvent):
         return jsonify()
 
 
-    emoji_choice(root_id, parent_id,message_id,emoji_type,characteristic)
+    feishu_emoji_choice(root_id, parent_id,message_id,emoji_type,characteristic)
 
     return jsonify()
 
@@ -84,7 +84,6 @@ def message_receive_event_handler(req_data: MessageReceiveEvent):
         parent_id = ''
 
     message_type=message.message_type
-
     #用来判断message_id，防止重放数据
     message_status = is_characteristic_exist(message_id)
 
@@ -92,7 +91,7 @@ def message_receive_event_handler(req_data: MessageReceiveEvent):
     if message_status:
         return jsonify()
 
-    text_choice(message_id, root_id, parent_id, message_type, msgcontent)
+    feishu_type_choice(message_id, root_id, parent_id, message_type, msgcontent)
 
     return jsonify()
 

@@ -2,6 +2,8 @@ from sqlalchemy import create_engine, Column, Integer, String,Text
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
 from core.config import random_word_num
+from sqlalchemy import func
+from sqlalchemy import exists
 import random
 
 # 创建一个数据库引擎
@@ -17,6 +19,11 @@ class Word(Base):
     id = Column(Integer, primary_key=True)
     content = Column(String, unique=True)
 
+class ToeflIndependent(Base):
+    __tablename__ = 'toefl_independent'
+
+    id = Column(Integer, primary_key=True)
+    title = Column(Text, nullable=False)
 
 class Msg(Base):
     __tablename__ = 'msg_table'
@@ -36,6 +43,53 @@ class Msg(Base):
 
 # 创建表
 Base.metadata.create_all(engine)
+
+
+def get_random_toefl_independent_title():
+    Session = sessionmaker(bind=engine)
+
+    # 创建一个 Session 实例
+    session = Session()
+
+    # 查询随机抽取的记录
+    random_record = session.query(ToeflIndependent).order_by(func.random()).first().title
+
+    # 关闭会话
+    session.close()
+
+    return random_record
+
+
+def get_content_by_root_id(root_id):
+    Session = sessionmaker(bind=engine)
+
+    # 创建一个 Session 实例
+    session = Session()
+
+    # 根据 root_id 找到记录并获取 content 字段内容
+    msg = session.query(Msg).filter(Msg.message_id == root_id).first()
+    content = msg.content if msg else None
+
+    # 关闭会话
+    session.close()
+
+    return content
+
+def get_content_by_parent_id(parent_id):
+    Session = sessionmaker(bind=engine)
+
+    # 创建一个 Session 实例
+    session = Session()
+
+    # 根据 root_id 找到记录并获取 content 字段内容
+    msg = session.query(Msg).filter(Msg.parent_id == parent_id).first()
+    content = msg.content if msg else None
+
+    # 关闭会话
+    session.close()
+
+    return content
+
 
 def get_filepath_by_parent_id(parent_id):
     # 创建session
@@ -87,6 +141,36 @@ def get_first_conversation_dia_type(message_id,root_id):
         return first_msg.dia_type
 
     return None
+
+
+def insert_toefl_independent(title):
+    Session = sessionmaker(bind=engine)
+
+    # 创建一个 Session 实例
+    session = Session()
+
+    # 检查是否已存在具有相同标题的记录
+    exists_query = session.query(exists().where(ToeflIndependent.title == title)).scalar()
+    if exists_query:
+        # 存在相同标题的记录，不执行插入操作
+        session.close()
+        return False
+
+    # 创建一个新消息
+    new_independent = ToeflIndependent(
+        title=title
+    )
+    # 添加到会话
+    session.add(new_independent)
+
+    # 提交更改
+    session.commit()
+
+    # 关闭会话
+    session.close()
+
+    return True
+
 
 def insert_msg(message_id, root_id, parent_id, content,message_type, characteristic,operation,dia_type,file_key='',filepath=''):
     Session = sessionmaker(bind=engine)

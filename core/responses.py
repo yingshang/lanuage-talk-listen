@@ -9,7 +9,8 @@ message_api_client = MessageApiClient(APP_ID, APP_SECRET, LARK_HOST)
 def dia_choice(parent_id, root_id, message_id, content,characteristic, filepath='', dialogue=0,ingore_type=0):
     dia_type = get_first_conversation_dia_type(message_id,root_id)
     if ingore_type == 1:
-        deal_text_response(parent_id, root_id, message_id, content,characteristic)
+        resp_text = deal_text_response(parent_id, root_id, message_id, content,characteristic)
+        return resp_text
     elif dia_type == 'audio':
         deal_audio_response(parent_id, root_id, message_id, content,characteristic,filepath,dialogue)
     elif dia_type == 'text':
@@ -39,7 +40,7 @@ def deal_text_response(parent_id, root_id, message_id, content,characteristic):
     message_id, parent_id, root_id, content = message_api_client.reply_send(message_id, resp_text, 'text')
     # 插入返回数据
     insert_msg(message_id, root_id, parent_id, resp_text, 'text', characteristic, 'ai','')
-
+    return resp_text
 
 def deal_dialogues(parent_id,root_id,message_id,text_content):
 

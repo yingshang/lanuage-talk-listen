@@ -1,12 +1,13 @@
 from core.tencent import speech_recognition
 from feishu.helper import *
 import os
-from core.scenes import scene,school_scenes,academic_scenes
+from core.scenes import scene,school_scenes,academic_scenes,toefl_scenes
 from core.responses import *
 from datetime import datetime
 import json
 from core.config import *
 from core.models import *
+from core.english import toefl_load_independent_file
 import string
 from feishu.api import MessageApiClient
 
@@ -14,16 +15,16 @@ from feishu.api import MessageApiClient
 message_api_client = MessageApiClient(APP_ID, APP_SECRET, LARK_HOST)
 
 topics_list = ['随机话题','讲座','学校']
+values_list = ['独立口语1']
 cwd = os.getcwd()
 chatfile_path = os.path.join(cwd,'chatfile')
 
 
-def text_choice(message_id,root_id,parent_id,message_type,msgcontent):
+def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
     now = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     filepath = os.path.join(chatfile_path, f"{now}.opus")
 
     characteristic = message_id
-
     if message_type == "text":
         text_content = json.loads(msgcontent)['text']
         insert_msg(message_id, root_id, parent_id, text_content, message_type, characteristic, 'receive', 'text')
@@ -88,12 +89,20 @@ def text_choice(message_id,root_id,parent_id,message_type,msgcontent):
                 dia_choice(parent_id, root_id, message_id, content, characteristic, filepath)
 
 
-        elif "独立口语" == text_content:
-            pass
-            # title = random_speak_title()
-            # duration_ms = generate_audio(title, filepath, dialogue=0)
-            # filekey = message_api_client.upload_audio_file(filepath, duration_ms)
-            # message_api_client.reply_send(message_id, filekey, 'audio')
+        elif "独立口语1" == text_content:
+            title = get_random_toefl_independent_title()
+            duration_ms = generate_audio(title, filepath, dialogue=0)
+            file_key = message_api_client.upload_audio_file(filepath, duration_ms)
+            message_id, parent_id, root_id, content = message_api_client.reply_send(message_id, file_key, 'audio')
+            insert_msg(message_id, root_id, parent_id, title, message_type, characteristic, 'receive', 'audio',file_key, filepath)
+        elif "独立口语2" == text_content:
+            content = random.choice(toefl_scenes['oral_task2'])
+            resp_text = dia_choice(parent_id, root_id, message_id, content, characteristic, ingore_type=1)
+            #'针对于上面这个话题，两位学生分别表达了自己的观点（同意或者反对）和使用对应的例子进行说明。两人对话分别用P1:和P2:表示。对话内容不少于20段。'
+
+
+
+
 
         elif "口语评分" in text_content:
             content = text_content.replace("口语评分", "").strip()
@@ -120,30 +129,58 @@ def text_choice(message_id,root_id,parent_id,message_type,msgcontent):
             else:
                 resp_text = '触发错误，确定是否录入单词'
                 message_api_client.reply_send(message_id, resp_text, 'text')
+        elif "托福独立口语模板" ==text_content:
+            filepath = "origin/托福独立口语模板.xlsx"
+            filekey = message_api_client.upload_stream_file(filepath)
+            message_api_client.reply_send(message_id, filekey, 'file')
+
 
         else:
-            update_dia_type(message_id,'audio')
-            dia_choice(parent_id, root_id, message_id, text_content,characteristic,filepath)
+            content = get_content_by_root_id(root_id)
+            if content in values_list:
+                title = get_content_by_parent_id(root_id)
+                if content=="独立口语1":
+                    text_content = "根据新托福口语TASK1评分标准，对以下回答进行评分。\n题目是：{}\n答案：{}".format(title,text_content)
+                    dia_choice(parent_id, root_id, message_id, text_content, characteristic)
+
+            else:
+                update_dia_type(message_id,'audio')
+                dia_choice(parent_id, root_id, message_id, text_content,characteristic,filepath)
 
 
     elif message_type == 'audio':
         audio_content = json.loads(msgcontent)
         file_key = audio_content['file_key']
-        message_api_client.download_audio(message_id, file_key, filepath)
+        message_api_client.download_file(message_id, file_key, filepath)
         #获取音频文本
         speech_text = speech_recognition(filepath, TencentSecretId, TencentSecretKey)
         insert_msg(message_id, root_id, parent_id, speech_text, message_type, characteristic,'receive','audio',file_key,filepath)
 
-        dia_choice(parent_id, root_id, message_id, speech_text,characteristic,filepath)
+        content = get_content_by_root_id(root_id)
+        if content in values_list:
+            title = get_content_by_parent_id(root_id)
+            if content == "独立口语1":
+                text_content = "根据新托福口语TASK1评分标准，对以下回答进行评分。\n题目是：{}\n答案：{}".format(title, speech_text)
+                dia_choice(parent_id, root_id, message_id, text_content, characteristic)
+        else:
 
+            dia_choice(parent_id, root_id, message_id, speech_text,characteristic,filepath)
 
-def emoji_choice(root_id, parent_id,message_id,emoji_type,characteristic):
+    elif message_type == 'file':
+        file_content = json.loads(msgcontent)
+        file_name = file_content['file_name']
+        file_key = file_content['file_key']
+        file = "file/托福独立口语题目.xlsx"
+        if file_name == '托福独立口语题目.xlsx':
+            message_api_client.download_file(message_id, file_key, file)
+            toefl_load_independent_file(file)
+
+def feishu_emoji_choice(root_id, parent_id,message_id,emoji_type,characteristic):
     random_string = ''.join(random.sample(string.ascii_lowercase + string.digits, 32))
     msg_id = "om_{}".format(random_string)
     now = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     filepath = os.path.join(chatfile_path, f"{now}.opus")
 
-    print(emoji_type)
     # 原文
     if emoji_type == 'THUMBSUP':
         resp_text = get_content_by_message_id(message_id)

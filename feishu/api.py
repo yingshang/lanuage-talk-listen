@@ -24,7 +24,7 @@ class MessageApiClient(object):
     def send_text_with_open_id(self, open_id, content):
         self.send("open_id", open_id, "text", content)
 
-    def download_audio(self, message_id, file_key,filepath):
+    def download_file(self, message_id, file_key,filepath):
         self._authorize_tenant_access_token()
         url = "{}{}/{}/resources/{}?type=file".format(
             self._lark_host, MESSAGE_URI, message_id, file_key
