@@ -77,16 +77,11 @@ def text_choice(message_id,root_id,parent_id,message_type,msgcontent):
                 content = scene[text_content].format(sc_scene,sc_selected,sc_scene)
                 dia_choice(parent_id, root_id, message_id, content, characteristic, filepath,dialogue=1)
 
-                # 将音频文件以文件方式发送出来，用于上传到空间，后台听音频。
-                filekey = message_api_client.upload_stream_file(filepath)
-                message_api_client.reply_send(message_id, filekey, 'file')
 
             elif text_content=="讲座":
                 content = scene[text_content].format(random.choice(academic_scenes))
                 dia_choice(parent_id, root_id, message_id, content, characteristic, filepath)
-                # 将音频文件以文件方式发送出来，用于上传到空间，后台听音频。
-                filekey = message_api_client.upload_stream_file(filepath)
-                message_api_client.reply_send(message_id, filekey, 'file')
+
 
             else:
                 content = scene[text_content]
@@ -102,7 +97,7 @@ def text_choice(message_id,root_id,parent_id,message_type,msgcontent):
 
         elif "口语评分" in text_content:
             content = text_content.replace("口语评分", "").strip()
-            filepath = get_filepath_by_message_id(parent_id)
+            filepath = get_filepath_by_parent_id(parent_id)
 
             wav_filepath = to_wavfile(filepath)
             msgs = pronunciation_assessment_continuous_from_file(content,wav_filepath)
@@ -148,7 +143,7 @@ def emoji_choice(root_id, parent_id,message_id,emoji_type,characteristic):
     now = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     filepath = os.path.join(chatfile_path, f"{now}.opus")
 
-    #print(emoji_type)
+    print(emoji_type)
     # 原文
     if emoji_type == 'THUMBSUP':
         resp_text = get_content_by_message_id(message_id)
@@ -190,3 +185,9 @@ def emoji_choice(root_id, parent_id,message_id,emoji_type,characteristic):
         insert_msg(msg_id, root_id, message_id, content, 'text', characteristic, 'receive', '')
 
         dia_choice(parent_id, root_id, message_id, content, characteristic, ingore_type=1)
+
+    elif emoji_type =='OK':
+        filepath = get_filepath_by_message_id(message_id)
+        # 将音频文件以文件方式发送出来，用于上传到空间，后台听音频。
+        filekey = message_api_client.upload_stream_file(filepath)
+        message_api_client.reply_send(message_id, filekey, 'file')
