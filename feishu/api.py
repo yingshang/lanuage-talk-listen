@@ -91,7 +91,7 @@ class MessageApiClient(object):
         url = "https://open.feishu.cn/open-apis/im/v1/files"
         form = {
             'file_type': 'stream',
-            'file_name': filename,
+            'file_name': filename.replace(".opus",'.mp3'),
             'file': (filename, open(filepath, 'rb'), 'text/plain')
         }
         multi_form = MultipartEncoder(form)
