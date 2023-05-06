@@ -168,8 +168,8 @@ docker run -itd -p 443:443 -v /opt/file:/opt/lanuage-talk-listen/file --restart=
   >
   > https://open.dingtalk.com/document/orgapp/the-application-robot-in-the-enterprise-sends-a-single-chat
 
-- [ ] excel文档导入和模板下载（用于托福独立口语导入）
-- [ ] 托福独立口语
+- [ ] excel文档导入和模板下载（用于托福独立口语题目导入）
+- [ ] 托福独立口语（随机出题、评分）
 
 
 
