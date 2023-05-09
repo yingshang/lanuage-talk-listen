@@ -43,7 +43,6 @@ def deal_text_response(parent_id, root_id, message_id, content,characteristic):
     return resp_text
 
 def deal_dialogues(parent_id,root_id,message_id,text_content):
-
     if len(parent_id)==0 and len(root_id)==0:
         msgs = [
             {

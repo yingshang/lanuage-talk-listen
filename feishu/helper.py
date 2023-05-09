@@ -1,10 +1,10 @@
 feishu_help_text = {
-    "title": "帮助列表",
+    "title": "帮助列表(bz)",
     "content": [
         [
             {
                 "tag": "text",
-                "text": "输入以下关键字，即可触发对应的事件。",
+                "text": "输入以下中文关键字或者英文关键字，即可触发对应的事件。",
                 "style": ["bold", "underline"]
             }
         ],
@@ -19,7 +19,7 @@ feishu_help_text = {
         [
             {
                 "tag": "text",
-                "text": "余额 ",
+                "text": "余额(ye) ",
                 "style": ["bold", "underline"]
             },
             {
@@ -96,7 +96,7 @@ feishu_help_text = {
         [
             {
                 "tag": "text",
-                "text": "词汇阅读 ",
+                "text": "词汇阅读(chyd) ",
                 "style": ["bold", "underline"]
             },
             {
@@ -115,7 +115,7 @@ feishu_help_text = {
         [
             {
                 "tag": "text",
-                "text": "词汇题 ",
+                "text": "词汇题(cht) ",
                 "style": ["bold", "underline"]
             },
             {
@@ -169,25 +169,6 @@ feishu_help_text = {
                 "style": []
             }
         ],
-        [
-            {
-                "tag": "text",
-                "text": "讲座 ",
-                "style": ["bold", "underline"]
-            },
-            {
-                "tag": "text",
-                "text": "生成一篇学术讲座文章",
-                "style": []
-            }
-        ],
-        [
-            {
-                "tag": "text",
-                "text": "",
-                "style": []
-            }
-        ],
 
         [
             {
@@ -208,15 +189,136 @@ feishu_help_text = {
                 "style": []
             }
         ],
+
         [
             {
                 "tag": "text",
-                "text": "学校 ",
+                "text": "",
+                "style": []
+            }
+        ],
+
+        [
+            {
+                "tag": "text",
+                "text": "托福听力和口语场景应用选择",
+                "style": ["bold", "underline"]
+            }
+        ],
+
+        [
+            {
+                "tag": "text",
+                "text": "",
+                "style": []
+            }
+        ],
+
+        [
+            {
+                "tag": "text",
+                "text": "讲座(jz) ",
                 "style": ["bold", "underline"]
             },
             {
                 "tag": "text",
-                "text": "随机生成学校一系列场景的对话",
+                "text": "随机在学术场景中选择一个场景，生成一篇学术讲座文章",
+                "style": []
+            }
+        ],
+        [
+            {
+                "tag": "text",
+                "text": "",
+                "style": []
+            }
+        ],
+
+        [
+            {
+                "tag": "text",
+                "text": "学校(xx) ",
+                "style": ["bold", "underline"]
+            },
+            {
+                "tag": "text",
+                "text": "随机在学校场景里面选择一个场景，生成对话",
+                "style": []
+            }
+        ],
+        [
+            {
+                "tag": "text",
+                "text": "",
+                "style": []
+            }
+        ],
+
+        [
+            {
+                "tag": "text",
+                "text": "学校听力场景总览(xxtlcjzl) ",
+                "style": ["bold", "underline"]
+            },
+            {
+                "tag": "text",
+                "text": "显示涉及到那些学校场景",
+                "style": []
+            }
+        ],
+        [
+            {
+                "tag": "text",
+                "text": "",
+                "style": []
+            }
+        ],
+
+[
+            {
+                "tag": "text",
+                "text": "讲座听力场景总览(jztlcjzl) ",
+                "style": ["bold", "underline"]
+            },
+            {
+                "tag": "text",
+                "text": "显示涉及到那些讲座场景",
+                "style": []
+            }
+        ],
+        [
+            {
+                "tag": "text",
+                "text": "",
+                "style": []
+            }
+        ],
+
+
+
+
+        [
+            {
+                "tag": "text",
+                "text": "独立口语1(t1) ",
+                "style": ["bold", "underline"]
+            },
+            {
+                "tag": "text",
+                "text": "随机选择一条独立口语TASK1题目，生成语音返回",
+                "style": []
+            }
+        ],
+
+
+
+
+
+
+        [
+            {
+                "tag": "text",
+                "text": "",
                 "style": []
             }
         ],
@@ -285,7 +387,7 @@ feishu_help_text = {
                 "style": []
             }
         ],
-[
+        [
             {
                 "tag": "emotion",
                 "emoji_type": "MUSCLE",
@@ -296,7 +398,7 @@ feishu_help_text = {
                 "style": []
             }
         ],
-[
+        [
             {
                 "tag": "emotion",
                 "emoji_type": "THANKS",
@@ -307,6 +409,20 @@ feishu_help_text = {
                 "style": []
             }
         ],
+        [
+            {
+                "tag": "emotion",
+                "emoji_type": "OK",
+            },
+            {
+                "tag": "text",
+                "text": "   将语音发送成mp3文件，用于后台播放音频",
+                "style": []
+            }
+        ],
 
     ]
 }
+
+
+

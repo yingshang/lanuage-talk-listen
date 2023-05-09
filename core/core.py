@@ -10,12 +10,13 @@ from core.models import *
 from core.english import toefl_load_independent_file
 import string
 from feishu.api import MessageApiClient
+from core.english import get_listen_school_scene,get_listen_academic_scene
 
 # init service
 message_api_client = MessageApiClient(APP_ID, APP_SECRET, LARK_HOST)
 
-topics_list = ['随机话题','讲座','学校']
-values_list = ['独立口语1']
+topics_list = ['随机话题','讲座','学校','xx','jz']
+values_list = ['独立口语1','t1']
 cwd = os.getcwd()
 chatfile_path = os.path.join(cwd,'chatfile')
 
@@ -29,10 +30,10 @@ def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
         text_content = json.loads(msgcontent)['text']
         insert_msg(message_id, root_id, parent_id, text_content, message_type, characteristic, 'receive', 'text')
 
-        if text_content == "帮助列表":
+        if text_content == "帮助列表" or text_content== "bz":
             message_api_client.reply_send(message_id, feishu_help_text, 'post')
 
-        elif text_content == "余额":
+        elif text_content == "余额" or text_content=="ye":
             hard_limit_usd, total_usage = check_price()
             resp_text = "授权金额:{}\n\n总共使用:{}".format(hard_limit_usd, total_usage)
             message_api_client.reply_send(message_id, resp_text, 'text')
@@ -52,7 +53,7 @@ def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
             new_words, total_words = read_write_words(contents)
             message_api_client.reply_send(message_id, f'录入单词完成,更新{new_words}个单词,总共{total_words}个单词', 'text')
 
-        elif "词汇阅读" == text_content:
+        elif "词汇阅读" == text_content or "chyd"==text_content:
             words = get_random_words()
             if words != None:
                 text_content = scene['词汇阅读'].format(",".join(words))
@@ -67,11 +68,18 @@ def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
             update_dia_type(message_id,'audio')
             dia_choice(parent_id, root_id, message_id, text_content,characteristic,filepath)
 
-        # 听力场景
+        elif text_content=="学校听力场景总览" or text_content=='xxtlcjzl':
+            resp_text = get_listen_school_scene()
+            message_api_client.reply_send(message_id, resp_text, 'post')
+
+        elif text_content=="讲座听力场景总览" or text_content=='jztlcjzl':
+            resp_text = get_listen_academic_scene()
+            message_api_client.reply_send(message_id, resp_text, 'post')
+
         elif text_content in topics_list:
             update_dia_type(message_id,'audio')
 
-            if text_content =='学校':
+            if text_content =='学校' or text_content=='xx':
                 sc_scene = random.choice(list(school_scenes.keys()))
                 value = school_scenes[sc_scene]
                 sc_selected = random.choice(value)
@@ -79,22 +87,39 @@ def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
                 dia_choice(parent_id, root_id, message_id, content, characteristic, filepath,dialogue=1)
 
 
-            elif text_content=="讲座":
+            elif text_content=="讲座" or text_content=='jz':
                 content = scene[text_content].format(random.choice(academic_scenes))
                 dia_choice(parent_id, root_id, message_id, content, characteristic, filepath)
-
 
             else:
                 content = scene[text_content]
                 dia_choice(parent_id, root_id, message_id, content, characteristic, filepath)
 
 
-        elif "独立口语1" == text_content:
+        #指定一个学校的听力场景
+        elif text_content in list(school_scenes.keys()):
+            update_dia_type(message_id,'audio')
+            value = school_scenes[text_content]
+            sc_selected = random.choice(value)
+            content = scene['学校'].format(text_content, sc_selected, text_content)
+            dia_choice(parent_id, root_id, message_id, content, characteristic, filepath, dialogue=1)
+
+        # 指定一个讲座的听力场景
+        elif text_content in academic_scenes:
+            update_dia_type(message_id,'audio')
+            content = scene['讲座'].format(text_content)
+            dia_choice(parent_id, root_id, message_id, content, characteristic, filepath)
+
+
+
+
+
+        elif "独立口语1" == text_content or 't1' == text_content:
             title = get_random_toefl_independent_title()
             duration_ms = generate_audio(title, filepath, dialogue=0)
             file_key = message_api_client.upload_audio_file(filepath, duration_ms)
             message_id, parent_id, root_id, content = message_api_client.reply_send(message_id, file_key, 'audio')
-            insert_msg(message_id, root_id, parent_id, title, message_type, characteristic, 'receive', 'audio',file_key, filepath)
+            insert_msg(message_id, root_id, parent_id, title, message_type, characteristic, 'send', 'audio',file_key, filepath)
         elif "独立口语2" == text_content:
             content = random.choice(toefl_scenes['oral_task2'])
             resp_text = dia_choice(parent_id, root_id, message_id, content, characteristic, ingore_type=1)
@@ -119,7 +144,7 @@ def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
             update_dia_type(message_id,'audio')
             dia_choice(parent_id, root_id, message_id, text_content,characteristic, filepath)
 
-        elif "词汇题" == text_content:
+        elif "词汇题" == text_content or "cht" ==text_content:
             words = get_random_words(1)
             if words != None:
                 word = words[0]
@@ -139,8 +164,11 @@ def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
             content = get_content_by_root_id(root_id)
             if content in values_list:
                 title = get_content_by_parent_id(root_id)
-                if content=="独立口语1":
-                    text_content = "根据新托福口语TASK1评分标准，对以下回答进行评分。\n题目是：{}\n答案：{}".format(title,text_content)
+                if content=="独立口语1" or content == 't1':
+                    text_content = "根据新托福口语TASK1的评分标准，对以下回答进行评分。\n题目是：{}\n我的回答：{}".format(title,text_content)
+
+                    update_content_by_message_id(message_id,text_content)
+
                     dia_choice(parent_id, root_id, message_id, text_content, characteristic)
 
             else:
@@ -159,8 +187,10 @@ def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
         content = get_content_by_root_id(root_id)
         if content in values_list:
             title = get_content_by_parent_id(root_id)
-            if content == "独立口语1":
-                text_content = "根据新托福口语TASK1评分标准，对以下回答进行评分。\n题目是：{}\n答案：{}".format(title, speech_text)
+            if content == "独立口语1" or content=='t1':
+                text_content = "根据新托福口语TASK1的评分标准，对以下回答进行评分。\n题目是：{}\n我的回答：{}".format(title, speech_text)
+                update_content_by_message_id(message_id, text_content)
+
                 dia_choice(parent_id, root_id, message_id, text_content, characteristic)
         else:
 
@@ -173,7 +203,10 @@ def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
         file = "file/托福独立口语题目.xlsx"
         if file_name == '托福独立口语题目.xlsx':
             message_api_client.download_file(message_id, file_key, file)
-            toefl_load_independent_file(file)
+            total,num = toefl_load_independent_file(file)
+            resp_text = '录入总数为：{}条记录，新增{}条记录，重复{}条记录'.format(total,num,total-num)
+            message_api_client.reply_send(message_id, resp_text, 'text')
+
 
 def feishu_emoji_choice(root_id, parent_id,message_id,emoji_type,characteristic):
     random_string = ''.join(random.sample(string.ascii_lowercase + string.digits, 32))
@@ -227,4 +260,6 @@ def feishu_emoji_choice(root_id, parent_id,message_id,emoji_type,characteristic)
         filepath = get_filepath_by_message_id(message_id)
         # 将音频文件以文件方式发送出来，用于上传到空间，后台听音频。
         filekey = message_api_client.upload_stream_file(filepath)
-        message_api_client.reply_send(message_id, filekey, 'file')
+        message_id,parent_id,root_id,content = message_api_client.reply_send(message_id, filekey, 'file')
+        insert_msg(message_id, root_id, parent_id, '', 'audio', characteristic,'send','',filekey,filepath)
+

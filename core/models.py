@@ -154,7 +154,7 @@ def insert_toefl_independent(title):
     if exists_query:
         # 存在相同标题的记录，不执行插入操作
         session.close()
-        return False
+        return 0
 
     # 创建一个新消息
     new_independent = ToeflIndependent(
@@ -169,8 +169,25 @@ def insert_toefl_independent(title):
     # 关闭会话
     session.close()
 
-    return True
+    return 1
 
+
+def update_content_by_message_id(message_id, new_content):
+    Session = sessionmaker(bind=engine)
+
+    # 创建一个 Session 实例
+    session = Session()
+    # 查询要更新的记录
+    msg = session.query(Msg).filter(Msg.message_id == message_id).first()
+
+    # 更新 content 字段
+    msg.content = new_content
+
+    # 提交更改
+    session.commit()
+
+    # 关闭会话
+    session.close()
 
 def insert_msg(message_id, root_id, parent_id, content,message_type, characteristic,operation,dia_type,file_key='',filepath=''):
     Session = sessionmaker(bind=engine)
