@@ -104,6 +104,7 @@ def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
             content = scene['学校'].format(text_content, sc_selected, text_content)
             dia_choice(parent_id, root_id, message_id, content, characteristic, filepath, dialogue=1)
 
+
         # 指定一个讲座的听力场景
         elif text_content in academic_scenes:
             update_dia_type(message_id,'audio')
