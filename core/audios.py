@@ -117,7 +117,7 @@ def azure_generate_audio(sentence, filepath, dialogue):
                 """
                 sl = sl + s
         ssml = ssml.format(sl)
-
+    print(ssml)
     wav_path = filepath.replace(".opus", ".wav")
     result = synthesizer.speak_ssml_async(ssml).get()
     stream = speechsdk.AudioDataStream(result)

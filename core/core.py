@@ -22,6 +22,8 @@ chatfile_path = os.path.join(cwd,'chatfile')
 
 
 def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
+    random_string = ''.join(random.sample(string.ascii_lowercase + string.digits, 32))
+    msg_id = "om_{}".format(random_string)
     now = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     filepath = os.path.join(chatfile_path, f"{now}.opus")
 
@@ -111,19 +113,24 @@ def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
             dia_choice(parent_id, root_id, message_id, content, characteristic, filepath)
 
 
-
-
-
         elif "独立口语1" == text_content or 't1' == text_content:
             title = get_random_toefl_independent_title()
+
             duration_ms = generate_audio(title, filepath, dialogue=0)
             file_key = message_api_client.upload_audio_file(filepath, duration_ms)
             message_id, parent_id, root_id, content = message_api_client.reply_send(message_id, file_key, 'audio')
             insert_msg(message_id, root_id, parent_id, title, message_type, characteristic, 'send', 'audio',file_key, filepath)
-        elif "独立口语2" == text_content:
+        elif "独立口语2" == text_content  or 't2' == text_content:
             content = random.choice(toefl_scenes['oral_task2'])
-            resp_text = dia_choice(parent_id, root_id, message_id, content, characteristic, ingore_type=1)
-            #'针对于上面这个话题，两位学生分别表达了自己的观点（同意或者反对）和使用对应的例子进行说明。两人对话分别用P1:和P2:表示。对话内容不少于20段。'
+            resp_text,message_id, parent_id, root_id = dia_choice(parent_id, root_id, message_id, content, characteristic, ingore_type=1)
+            #发送对话音频
+            now = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+            filepath = os.path.join(chatfile_path, f"{now}.opus")
+            content = scene['托福独立口语task2意见生成']
+            insert_msg(msg_id, root_id, message_id, content, 'text', msg_id, 'receive', '')
+
+            dia_choice(parent_id, root_id, message_id, content, message_id,filepath,ingore_type=2,dialogue=1)
+
 
 
 
@@ -165,7 +172,7 @@ def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
             if content in values_list:
                 title = get_content_by_parent_id(root_id)
                 if content=="独立口语1" or content == 't1':
-                    text_content = "根据新托福口语TASK1的评分标准，对以下回答进行评分。\n题目是：{}\n我的回答：{}".format(title,text_content)
+                    text_content = scene['托福独立口语task1批改'].format(title,text_content)
 
                     update_content_by_message_id(message_id,text_content)
 
@@ -188,7 +195,7 @@ def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
         if content in values_list:
             title = get_content_by_parent_id(root_id)
             if content == "独立口语1" or content=='t1':
-                text_content = "根据新托福口语TASK1的评分标准，对以下回答进行评分。\n题目是：{}\n我的回答：{}".format(title, speech_text)
+                text_content = scene['托福独立口语task1批改'].format(title, speech_text)
                 update_content_by_message_id(message_id, text_content)
 
                 dia_choice(parent_id, root_id, message_id, text_content, characteristic)
@@ -213,7 +220,7 @@ def feishu_emoji_choice(root_id, parent_id,message_id,emoji_type,characteristic)
     msg_id = "om_{}".format(random_string)
     now = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     filepath = os.path.join(chatfile_path, f"{now}.opus")
-
+    #print(emoji_type)
     # 原文
     if emoji_type == 'THUMBSUP':
         resp_text = get_content_by_message_id(message_id)
@@ -262,4 +269,13 @@ def feishu_emoji_choice(root_id, parent_id,message_id,emoji_type,characteristic)
         filekey = message_api_client.upload_stream_file(filepath)
         message_id,parent_id,root_id,content = message_api_client.reply_send(message_id, filekey, 'file')
         insert_msg(message_id, root_id, parent_id, '', 'audio', characteristic,'send','',filekey,filepath)
+
+    #托福独立口语task1答案生成
+    elif emoji_type =='LAUGH':
+        resp_text = get_content_by_message_id(message_id)
+        content = scene['托福独立口语task1答案生成'].format(resp_text)
+        insert_msg(msg_id, root_id, message_id, content, 'text', characteristic, 'receive', '')
+
+        dia_choice(parent_id, root_id, message_id, content, characteristic)
+
 

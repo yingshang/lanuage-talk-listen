@@ -295,7 +295,25 @@ feishu_help_text = {
         ],
 
 
-
+[
+            {
+                "tag": "text",
+                "text": "托福独立口语模板",
+                "style": ["bold", "underline"]
+            },
+            {
+                "tag": "text",
+                "text": "下载托福独立口语Excel模板，用来导入TASK1题目",
+                "style": []
+            }
+        ],
+        [
+            {
+                "tag": "text",
+                "text": "",
+                "style": []
+            }
+        ],
 
         [
             {
@@ -309,6 +327,7 @@ feishu_help_text = {
                 "style": []
             }
         ],
+
 
 
 
@@ -420,6 +439,19 @@ feishu_help_text = {
                 "style": []
             }
         ],
+
+[
+            {
+                "tag": "emotion",
+                "emoji_type": "LAUGH",
+            },
+            {
+                "tag": "text",
+                "text": "   生成托福独立口语task1答案",
+                "style": []
+            }
+        ],
+
 
     ]
 }

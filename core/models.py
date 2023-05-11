@@ -53,7 +53,6 @@ def get_random_toefl_independent_title():
 
     # 查询随机抽取的记录
     random_record = session.query(ToeflIndependent).order_by(func.random()).first().title
-
     # 关闭会话
     session.close()
 
