@@ -47,9 +47,25 @@
 
 
 
+### google key
+
+访问[Google语音服务](https://console.cloud.google.com/speech/text-to-speech)
+
+> Text-to-Speech 的价格取决于**每月**发送给服务并合成为音频的字符数量。您必须启用结算功能才能使用 Text-to-Speech，并且如果您的用量超过了每月允许的免费字符数上限，系统会自动向您收费。
+>
+> | 特征                                                         | 每月免费用量      | 达到免费用量限制后的价格          |
+> | :----------------------------------------------------------- | :---------------- | :-------------------------------- |
+> | 标准（非 WaveNet、非 Neural2）语音                           | 0 至 400 万个字符 | $0.000004/字符（$4.00/百万字符）  |
+> | [WaveNet](https://cloud.google.com/text-to-speech/docs/wavenet?hl=zh-cn) 语音 | 0 至 100 万个字符 | $0.000016/字符（$16.00/百万字符） |
+> | [Neural2](https://cloud.google.com/text-to-speech/docs/wavenet?hl=zh-cn#neural2_voices) 语音 | 0 至 100 万个字符 | $0.000016/字符（$16.00/百万字符） |
+
+
+
+
+
 ### 微软key
 
-> 需要信用卡，新注册信用卡可以免费使用1年微软语音服务。
+> 需要信用卡，新注册信用卡可以免费使用微软语音服务。
 
 > **如果没有这个，建议使用sougou或者youdao语音的引擎。**
 
