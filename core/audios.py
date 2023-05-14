@@ -125,7 +125,7 @@ def google_generate_audio(sentence, filepath, dialogue):
             else:
                 sens.append(ssml_text.format(tmp))
                 tmp = ""
-
+        sens.append(ssml_text.format(tmp))
 
     elif dialogue == 1:
         ssml = """<speak>{}</speak>"""
