@@ -25,6 +25,10 @@ def deal_audio_response(parent_id, root_id, message_id, content,characteristic, 
 
     resp_text = deal_dialogues(parent_id, root_id,message_id,content)
     duration_ms = generate_audio(resp_text, filepath,dialogue)
+    if duration_ms==None:
+        if audio_mode == 'azure':
+            message_api_client.reply_send(message_id, 'azure语音服务的额度已经用完', 'text')
+        return
     filekey = message_api_client.upload_audio_file(filepath, duration_ms)
     message_id,parent_id,root_id,file_key = message_api_client.reply_send(message_id, filekey, 'audio')
     #插入返回数据

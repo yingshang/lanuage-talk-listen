@@ -8,3 +8,4 @@ pydub
 azure-cognitiveservices-speech
 openpyxl
 sqlalchemy
+google-cloud-texttospeech
