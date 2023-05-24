@@ -15,7 +15,7 @@ from core.english import get_listen_school_scene,get_listen_academic_scene
 # init service
 message_api_client = MessageApiClient(APP_ID, APP_SECRET, LARK_HOST)
 
-topics_list = ['随机话题','讲座','学校','xx','jz']
+topics_list = ['随机话题','讲座','学校','xx','jz','讲座对话','jzdh']
 values_list = ['独立口语1','t1']
 cwd = os.getcwd()
 chatfile_path = os.path.join(cwd,'chatfile')
