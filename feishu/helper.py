@@ -234,6 +234,28 @@ feishu_help_text = {
             }
         ],
 
+
+[
+            {
+                "tag": "text",
+                "text": "讲座对话(jzdh) ",
+                "style": ["bold", "underline"]
+            },
+            {
+                "tag": "text",
+                "text": "随机在学术场景中选择一个场景，生成教授与学生之间的学术讲座对话",
+                "style": []
+            }
+        ],
+        [
+            {
+                "tag": "text",
+                "text": "",
+                "style": []
+            }
+        ],
+
+
         [
             {
                 "tag": "text",
@@ -274,7 +296,7 @@ feishu_help_text = {
             }
         ],
 
-[
+        [
             {
                 "tag": "text",
                 "text": "讲座听力场景总览(jztlcjzl) ",
@@ -294,8 +316,7 @@ feishu_help_text = {
             }
         ],
 
-
-[
+        [
             {
                 "tag": "text",
                 "text": "托福独立口语模板",
@@ -327,12 +348,6 @@ feishu_help_text = {
                 "style": []
             }
         ],
-
-
-
-
-
-
 
         [
             {
@@ -440,7 +455,7 @@ feishu_help_text = {
             }
         ],
 
-[
+        [
             {
                 "tag": "emotion",
                 "emoji_type": "LAUGH",
@@ -452,9 +467,5 @@ feishu_help_text = {
             }
         ],
 
-
     ]
 }
-
-
-

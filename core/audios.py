@@ -278,6 +278,7 @@ def azure_generate_audio(sentence, filepath, dialogue):
         </speak>
         """
         sl = ""
+        sentence = add_missing_markers(sentence)
         for i in sentence.split("\n"):
             if "P1:" in i:
                 s = f"""
@@ -293,6 +294,9 @@ def azure_generate_audio(sentence, filepath, dialogue):
                         </voice>
                 """
                 sl = sl + s
+
+
+
         ssml = ssml.format(sl)
     wav_path = filepath.replace(".opus", ".wav")
     result = synthesizer.speak_ssml_async(ssml).get()
@@ -312,6 +316,29 @@ def azure_generate_audio(sentence, filepath, dialogue):
         #     print("Error details: {}".format(cancellation_details.error_details))
 
 
+
+def add_missing_markers(text):
+    lines = text.split("\n")
+    result = []
+
+    previous_marker = None
+
+    for line in lines:
+        line = line.strip()  # 去除行两端的空格
+
+        if line.startswith("P1:"):
+            previous_marker = "P1:"
+            result.append(line)
+        elif line.startswith("P2:"):
+            previous_marker = "P2:"
+            result.append(line)
+        elif line != "":
+            if previous_marker is not None:
+                result.append(previous_marker + " " + line)
+            else:
+                result.append(line)
+
+    return "\n".join(result)
 
 
 

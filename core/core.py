@@ -93,6 +93,11 @@ def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
                 content = scene['讲座'].format(random.choice(academic_scenes))
                 dia_choice(parent_id, root_id, message_id, content, characteristic, filepath)
 
+
+            elif text_content=="讲座对话" or text_content=='jzdh':
+                content = scene['讲座对话'].format(random.choice(academic_scenes))
+                dia_choice(parent_id, root_id, message_id, content, characteristic, filepath,dialogue=1)
+
             else:
                 content = scene[text_content]
                 dia_choice(parent_id, root_id, message_id, content, characteristic, filepath)
