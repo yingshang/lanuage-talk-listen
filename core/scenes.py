@@ -43,6 +43,7 @@ academic_scenes = [
     '政治学',
     '教育学',
     '人类学',
+    '艺术历史',
 ]
 
 school_scenes = {
