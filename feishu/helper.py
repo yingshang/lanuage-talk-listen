@@ -235,7 +235,7 @@ feishu_help_text = {
         ],
 
 
-[
+        [
             {
                 "tag": "text",
                 "text": "讲座对话(jzdh) ",
@@ -255,6 +255,45 @@ feishu_help_text = {
             }
         ],
 
+        [
+            {
+                "tag": "text",
+                "text": "讲座自定义场景 ",
+                "style": ["bold", "underline"]
+            },
+            {
+                "tag": "text",
+                "text": "自定义讲座场景，输入：讲座<空格><讲座场景>",
+                "style": []
+            }
+        ],
+        [
+            {
+                "tag": "text",
+                "text": "",
+                "style": []
+            }
+        ],
+
+[
+            {
+                "tag": "text",
+                "text": "讲座对话自定义场景 ",
+                "style": ["bold", "underline"]
+            },
+            {
+                "tag": "text",
+                "text": "自定义讲座对话场景，输入：讲座对话<空格><讲座场景>",
+                "style": []
+            }
+        ],
+        [
+            {
+                "tag": "text",
+                "text": "",
+                "style": []
+            }
+        ],
 
         [
             {
@@ -319,7 +358,7 @@ feishu_help_text = {
         [
             {
                 "tag": "text",
-                "text": "托福独立口语模板",
+                "text": "托福独立口语模板 ",
                 "style": ["bold", "underline"]
             },
             {
@@ -345,6 +384,26 @@ feishu_help_text = {
             {
                 "tag": "text",
                 "text": "随机选择一条独立口语TASK1题目，生成语音返回",
+                "style": []
+            }
+        ],
+        [
+            {
+                "tag": "text",
+                "text": "",
+                "style": []
+            }
+        ],
+
+        [
+            {
+                "tag": "text",
+                "text": "口语评分 ",
+                "style": ["bold", "underline"]
+            },
+            {
+                "tag": "text",
+                "text": "对语音文件进行回复，输入：口语评分<空格或者回车><英文文本>",
                 "style": []
             }
         ],

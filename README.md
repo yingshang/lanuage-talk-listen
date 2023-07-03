@@ -217,6 +217,7 @@ docker run -itd -p 443:443 -v /opt/file:/opt/lanuage-talk-listen/file --restart=
 - 2023.5.9：完善帮助列表。新增托福口语TASK1场景、指定听力场景生成和听力场景总览功能。
 - 2023.5.11：新增托福口语TASK1任务答案生成功能和优化评分prompt。
 - 2023.5.12：修复sougou语音生成bug，新增sougou语音引擎对话；删除有道语音引擎（失效）；新增谷歌云语音服务引擎（文本转语音、语音识别文字）；新增azure 文本转语音额度用完告警。
+- 2023.7.3：新增指定讲座和讲座对话场景，优化openai和azure的key列表。
 
 ## 联系方式
 

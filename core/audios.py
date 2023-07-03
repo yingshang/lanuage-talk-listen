@@ -261,59 +261,61 @@ def sougou_generate_audio(sentence, filepath, dialogue):
 
 
 def azure_generate_audio(sentence, filepath, dialogue):
-    speech_config = speechsdk.SpeechConfig(subscription=azure_speech_key, region=azure_service_region)
-    synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=None)
-    if dialogue == 0:
-        ssml = f"""
-                <speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">
-            <voice name="{azure_speaker}">
-                {sentence} <break />
-            </voice>
+    while len(azure_speech_key_list)>0:
+        azure_speech_key = random.choice(azure_speech_key_list)
+        speech_config = speechsdk.SpeechConfig(subscription=azure_speech_key, region=azure_service_region)
+        synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=None)
+        if dialogue == 0:
+            ssml = f"""
+                    <speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">
+                <voice name="{azure_speaker}">
+                    {sentence} <break />
+                </voice>
+                </speak>
+            """
+        elif dialogue == 1:
+            ssml = """
+            <speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">
+            {}
             </speak>
-        """
-    elif dialogue == 1:
-        ssml = """
-        <speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">
-        {}
-        </speak>
-        """
-        sl = ""
-        sentence = add_missing_markers(sentence)
-        for i in sentence.split("\n"):
-            if "P1:" in i:
-                s = f"""
-                        <voice name="en-US-JennyNeural">
-                            {i.replace("P1:", "")} 
-                        </voice>
+            """
+            sl = ""
+            sentence = add_missing_markers(sentence)
+            for i in sentence.split("\n"):
+                if "P1:" in i:
+                    s = f"""
+                            <voice name="en-US-JennyNeural">
+                                {i.replace("P1:", "")} 
+                            </voice>
+                        """
+                    sl = sl + s
+                elif "P2:" in i:
+                    s = f"""
+                            <voice name="en-US-GuyNeural">
+                                {i.replace("P2:", "")} 
+                            </voice>
                     """
-                sl = sl + s
-            elif "P2:" in i:
-                s = f"""
-                        <voice name="en-US-GuyNeural">
-                            {i.replace("P2:", "")} 
-                        </voice>
-                """
-                sl = sl + s
+                    sl = sl + s
 
+            ssml = ssml.format(sl)
+        wav_path = filepath.replace(".opus", ".wav")
+        result = synthesizer.speak_ssml_async(ssml).get()
+        # Check result
+        if result.reason == speechsdk.ResultReason.SynthesizingAudioCompleted:
+            stream = speechsdk.AudioDataStream(result)
+            stream.save_to_wav_file(wav_path)
+            audio = AudioSegment.from_file(wav_path)
+            audio.export(filepath, format="opus")
+            duration_ms = len(audio)
+            return duration_ms
+        elif result.reason == speechsdk.ResultReason.Canceled:
+            cancellation_details = result.cancellation_details
+            azure_speech_key_list.remove(azure_speech_key_list)
 
-
-        ssml = ssml.format(sl)
-    wav_path = filepath.replace(".opus", ".wav")
-    result = synthesizer.speak_ssml_async(ssml).get()
-    # Check result
-    if result.reason == speechsdk.ResultReason.SynthesizingAudioCompleted:
-        stream = speechsdk.AudioDataStream(result)
-        stream.save_to_wav_file(wav_path)
-        audio = AudioSegment.from_file(wav_path)
-        audio.export(filepath, format="opus")
-        duration_ms = len(audio)
-        return duration_ms
-    elif result.reason == speechsdk.ResultReason.Canceled:
-        cancellation_details = result.cancellation_details
-        return None
-        # print("Speech synthesis canceled: {}".format(cancellation_details.reason))
-        # if cancellation_details.reason == speechsdk.CancellationReason.Error:
-        #     print("Error details: {}".format(cancellation_details.error_details))
+            # print("Speech synthesis canceled: {}".format(cancellation_details.reason))
+            # if cancellation_details.reason == speechsdk.CancellationReason.Error:
+            #     print("Error details: {}".format(cancellation_details.error_details))
+    return None
 
 
 

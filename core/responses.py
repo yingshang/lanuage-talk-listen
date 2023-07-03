@@ -24,6 +24,9 @@ def dia_choice(parent_id, root_id, message_id, content,characteristic, filepath=
 def deal_audio_response(parent_id, root_id, message_id, content,characteristic, filepath, dialogue):
 
     resp_text = deal_dialogues(parent_id, root_id,message_id,content)
+    if resp_text==None:
+        message_api_client.reply_send(message_id, 'openai key都失效', 'text')
+        return
     duration_ms = generate_audio(resp_text, filepath,dialogue)
     if duration_ms==None:
         if audio_mode == 'azure':

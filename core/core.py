@@ -36,8 +36,7 @@ def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
             message_api_client.reply_send(message_id, feishu_help_text, 'post')
 
         elif text_content == "余额" or text_content=="ye":
-            hard_limit_usd, total_usage = check_price()
-            resp_text = "授权金额:{}\n\n总共使用:{}".format(hard_limit_usd, total_usage)
+            resp_text = check_price()
             message_api_client.reply_send(message_id, resp_text, 'text')
 
         elif "查询" in text_content:
@@ -117,6 +116,12 @@ def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
             content = scene['讲座'].format(text_content)
             dia_choice(parent_id, root_id, message_id, content, characteristic, filepath)
 
+        # 指定一个讲座对话的听力场景
+        elif text_content in [ele+"对话" for ele in academic_scenes]:
+            text_content = text_content.replace("对话","")
+            update_dia_type(message_id,'audio')
+            content = scene['讲座对话'].format(text_content)
+            dia_choice(parent_id, root_id, message_id, content, characteristic, filepath)
 
         elif "独立口语1" == text_content or 't1' == text_content:
             title = get_random_toefl_independent_title()
@@ -137,10 +142,6 @@ def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
             dia_choice(parent_id, root_id, message_id, content, message_id,filepath,ingore_type=2,dialogue=1)
 
 
-
-
-
-
         elif "口语评分" in text_content:
             content = text_content.replace("口语评分", "").strip()
             filepath = get_filepath_by_parent_id(parent_id)
@@ -149,6 +150,17 @@ def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
             msgs = pronunciation_assessment_continuous_from_file(content,wav_filepath)
             message_api_client.reply_send(message_id, msgs, 'text')
 
+        elif "讲座 " in text_content:
+            text_content = text_content.replace("讲座 ","")
+            update_dia_type(message_id, 'audio')
+            content = scene['讲座'].format(text_content)
+            dia_choice(parent_id, root_id, message_id, content, characteristic, filepath)
+
+        elif "讲座对话 " in text_content:
+            text_content = text_content.replace("讲座对话 ","")
+            update_dia_type(message_id, 'audio')
+            content = scene['讲座对话'].format(text_content)
+            dia_choice(parent_id, root_id, message_id, content, characteristic, filepath)
 
         elif "扮演" in text_content:
             content = text_content.replace("扮演", "").strip()
