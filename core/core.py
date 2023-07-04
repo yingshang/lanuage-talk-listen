@@ -121,7 +121,7 @@ def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
             text_content = text_content.replace("对话","")
             update_dia_type(message_id,'audio')
             content = scene['讲座对话'].format(text_content)
-            dia_choice(parent_id, root_id, message_id, content, characteristic, filepath)
+            dia_choice(parent_id, root_id, message_id, content, characteristic, filepath, dialogue=1)
 
         elif "独立口语1" == text_content or 't1' == text_content:
             title = get_random_toefl_independent_title()
@@ -160,7 +160,7 @@ def feishu_type_choice(message_id,root_id,parent_id,message_type,msgcontent):
             text_content = text_content.replace("讲座对话 ","")
             update_dia_type(message_id, 'audio')
             content = scene['讲座对话'].format(text_content)
-            dia_choice(parent_id, root_id, message_id, content, characteristic, filepath)
+            dia_choice(parent_id, root_id, message_id, content, characteristic, filepath, dialogue=1)
 
         elif "扮演" in text_content:
             content = text_content.replace("扮演", "").strip()
